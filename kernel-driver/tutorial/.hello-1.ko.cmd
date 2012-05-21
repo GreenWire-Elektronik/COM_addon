@@ -1,0 +1,1 @@
+cmd_/root/COM_addon/kernel-driver/tutorial/hello-1.ko := arm-bcm2708hardfp-linux-gnueabi-ld -EL -r  -T /usr/src/linux/scripts/module-common.lds --build-id  -o /root/COM_addon/kernel-driver/tutorial/hello-1.ko /root/COM_addon/kernel-driver/tutorial/hello-1.o /root/COM_addon/kernel-driver/tutorial/hello-1.mod.o
