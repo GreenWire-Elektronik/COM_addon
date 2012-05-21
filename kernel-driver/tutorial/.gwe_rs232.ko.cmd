@@ -1,1 +1,0 @@
-cmd_/root/COM_addon/kernel-driver/tutorial/gwe_rs232.ko := arm-bcm2708hardfp-linux-gnueabi-ld -EL -r  -T /usr/src/linux/scripts/module-common.lds --build-id  -o /root/COM_addon/kernel-driver/tutorial/gwe_rs232.ko /root/COM_addon/kernel-driver/tutorial/gwe_rs232.o /root/COM_addon/kernel-driver/tutorial/gwe_rs232.mod.o
