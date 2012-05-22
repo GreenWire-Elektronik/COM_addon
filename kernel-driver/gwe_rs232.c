@@ -3,9 +3,9 @@
 #include <linux/init.h>
 #include <linux/stat.h>
 #include <linux/fs.h>
+#include <serial_core.h>
 
-
-#define DEVICE_NAME "ttySGWE0"
+#define DEVICE_NAME "ttyS42"
 #define MODUL_NAME "gwe_rs232"
 #define MAJOR_START 142
 
@@ -18,8 +18,8 @@ static int __init gwe_rs232_init(void);
 static void __exit gwe_rs232_exit(void);
 static int device_open(struct inode *, struct file *);
 static int device_release(struct inode *, struct file *);
-static ssize_t device_read(struct file *, char *, size_t, loff_t *);
-static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
+static ssize_t device_read(struct file *, char *, size_t, lofft_t *);
+static ssize_t device_write(struct file *, const char *, size_t, lofft_t *);
 
 
 static long int baudrate = 9600;
@@ -35,6 +35,20 @@ static struct file_operations fops = {
 	.open = device_open,
 	.release = device_release
 };
+static uart_driver gwe_rs232_reg = {
+	.owner = THIS_MODULE,
+	.driver_name = GWE_RS232_FULL,
+#ifdef CONFIG_DEVFS_FS
+	.dev_name = DEVICE_NAME+"%d",
+#else
+	.dev_name = DEVICE_NAME,
+#endif
+	.major = major_number,
+	.minor = 0,
+	.nr = 1,
+	.cons = NULL //atm no console support - has to be done later on
+};
+
 
 static int __init gwe_rs232_init(void)
 {
@@ -52,11 +66,16 @@ static int __init gwe_rs232_init(void)
 		}
 	}
 
+	/*getting major number for this module driver*/
 	if (major_number < 0) {
 		printk(KERN_ALERT "%s could not be loaded: error code %d", MODUL_NAME, major_number);
 		return major_number;
 	}
 	printk(KERN_INFO "%s loaded sucessfully MAJOR: %d\n", MODUL_NAME, major_number);
+
+	/*registering uart driver*/
+	gwe_rs232_reg.major_number = major_number;
+	uart_register_driver(&gwe_rs232_reg);
 
 
 	return 0;
