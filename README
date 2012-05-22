@@ -1,0 +1,14 @@
+GWE_RS232:
+driver to support expansion modul GWE_001. This modul will offer full-featured RS232 interface on one hand, normal serial port behaviour on other hand.
+
+STATUS:
+PREALPHA
+
+VERSION
+...
+
+
+TODOs:
+-console support
+-integrating serial_core into driver modul
+-writing low-level interface to communicate with hardware
